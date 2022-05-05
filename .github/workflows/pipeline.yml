@@ -46,15 +46,18 @@ jobs:
       #     last_ssh: |
       #       echo $LASTSSH
 
-      - name: copy file via ssh password
-        uses: appleboy/scp-action@master
+      - name: 📤 Upload files to the server and connect to the remote server
+        uses: nuonuonuonuoyan/auto-deploy@v1
         with:
-          host:     ${{ secrets.DC_HOST }}
-          username: ${{ secrets.DC_USER }}
+          user:     ${{ secrets.DC_HOST }}
+          host:     ${{ secrets.DC_USER }}
           password: ${{ secrets.DC_PASS }}
           port:     ${{ secrets.DC_PORT }}
-          source: "hola.txt"
-          target: "test"
+          source: '/hola.txt'
+          target: '/home/'
+          command: |
+            cd /home/
+            echo "Welcome" > hola2.txt
 
       # - uses: actions/setup-python@v3
       #   with: 
