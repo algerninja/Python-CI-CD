@@ -8,6 +8,6 @@ def hola(adssad):
         return 'hola'
 
 
-hola = 'uidhuiosabdnusahybduioashdniusdyhnaiuoydhsioadhnasiodhnasiodhnsydhasioydhsiodyh'
+holas = 'uidhuiosabdnusahybduioashdniusdyhnaiuoydhsioadhnasiodhnasiodhnsydhasioydhsiodyh'
 
 print('Hola muy buenas xD')
