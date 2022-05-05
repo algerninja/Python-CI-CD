@@ -29,6 +29,7 @@ jobs:
         env:
           WELCOME: "ssh scp ssh pipelines"
           LASTSSH: "Doing something after copying"
+          INPUT_PORT: ${{ secrets.DC_PORT }}
         with:
           host: ${{ secrets.DC_HOST }}
           user: ${{ secrets.DC_USER }}
