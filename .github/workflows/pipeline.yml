@@ -11,9 +11,11 @@ jobs:
     steps: 
       - uses: actions/checkout@v3
       - uses: cclauss/GitHub-Action-for-pylint@0.7.0
+      - uses: actions/setup-python@v3
         with: 
           python-version: '3.8'
       - run: python app.py
+      - run: pylint **/*.py
 # steps:
 # - uses: actions/setup-python@v3
 #   with:
