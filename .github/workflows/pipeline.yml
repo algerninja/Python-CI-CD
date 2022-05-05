@@ -4,13 +4,46 @@ on:
   push: 
     branches: [ main ]
 
+  pull_request:
+    branches: [ main ]
+
 jobs: 
-  PyLine: 
+  Linter: 
     runs-on: ubuntu-18.04
 
     steps: 
       - name: checkout source repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Lint
+        uses: programmingwithalex/pylinter@v1.4.3
+        with:
+          flake8-flags: '--count --show-source --statistics --ignore=E501'
+      
+
+
+      - name: ssh scp ssh pipelines
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          WELCOME: "ssh scp ssh pipelines"
+          LASTSSH: "Doing something after copying"
+        with:
+          host: ${{ secrets.DC_HOST }}
+          user: ${{ secrets.DC_USER }}
+          pass: ${{ secrets.DC_PASS }}
+          port: ${{ secrets.DC_PORT }}
+          connect_timeout: 10s
+          first_ssh: |
+            rm -rf /home/github/test
+            ls -la  \necho $WELCOME 
+            touch /home/test1.txt 
+            
+          scp: |
+            'hola.txt' => /home/
+          last_ssh: |
+            echo $LASTSSH
 
       # - uses: actions/setup-python@v3
       #   with: 
@@ -18,8 +51,5 @@ jobs:
       # - run: python app.py
 
 
-      - name: linting
-        uses: programmingwithalex/pylinter@v1.4.3
-        with:
-          flake8-flags: '--count --show-source --statistics --ignore=E501'
+
       
