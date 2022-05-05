@@ -53,7 +53,7 @@ jobs:
           username: ${{ secrets.DC_USER }}
           password: ${{ secrets.DC_PASS }}
           port:     ${{ secrets.DC_PORT }}
-          scp_source: /hola.txt
+          scp_source: /
           scp_target: /home/
           before_script: |
             ls -a
