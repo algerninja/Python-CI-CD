@@ -1,0 +1,13 @@
+name: hola
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  hola: 
+    runs-on: ubuntu-18.04
+      
+    steps:
+      - name: Hola Mundo
+        run: echo 'Hello, World'
