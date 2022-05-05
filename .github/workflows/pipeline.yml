@@ -56,9 +56,9 @@ jobs:
           scp_source: /hola.txt
           scp_target: /home/
           before_script: |
-            touch /home/hola2.txt
+            ls -a
           after_script: |
-            whoami
+            ls -a
       - run: ls -a
 
       # - uses: actions/setup-python@v3
