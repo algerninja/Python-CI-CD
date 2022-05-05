@@ -24,27 +24,37 @@ jobs:
       
 
 
-      - name: ssh scp ssh pipelines
-        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-        env:
-          WELCOME: "ssh scp ssh pipelines"
-          LASTSSH: "Doing something after copying"
-          INPUT_PORT: ${{ secrets.DC_PORT }}
-        with:
-          host: ${{ secrets.DC_HOST }}
-          user: ${{ secrets.DC_USER }}
-          pass: ${{ secrets.DC_PASS }}
-          port: ${{ secrets.DC_PORT }}
-          connect_timeout: 10s
-          first_ssh: |
-            rm -rf /home/github/test
-            ls -la  \necho $WELCOME 
-            touch /home/test1.txt 
+      # - name: ssh scp ssh pipelines
+      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+      #   env:
+      #     WELCOME: "ssh scp ssh pipelines"
+      #     LASTSSH: "Doing something after copying"
+      #     INPUT_PORT: ${{ secrets.DC_PORT }}
+      #   with:
+      #     host: ${{ secrets.DC_HOST }}
+      #     user: ${{ secrets.DC_USER }}
+      #     pass: ${{ secrets.DC_PASS }}
+      #     port: ${{ secrets.DC_PORT }}
+      #     connect_timeout: 10s
+      #     first_ssh: |
+      #       rm -rf /home/github/test
+      #       ls -la  \necho $WELCOME 
+      #       touch /home/test1.txt 
             
-          scp: |
-            'hola.txt' => /home/
-          last_ssh: |
-            echo $LASTSSH
+      #     scp: |
+      #       'hola.txt' => /home/
+      #     last_ssh: |
+      #       echo $LASTSSH
+
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host:     ${{ secrets.DC_HOST }}
+          username: ${{ secrets.DC_USER }}
+          password: ${{ secrets.DC_PASS }}
+          port:     ${{ secrets.DC_PORT }}
+          source: "hola.txt"
+          target: "test"
 
       # - uses: actions/setup-python@v3
       #   with: 
