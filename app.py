@@ -7,4 +7,6 @@ def hola(adssad):
                                 return 'hola'
 
 
+hola = 'uidhuiosabdnusahybduioashdniusdyhnaiuoydhsioadhnasiodhnasiodhnsydhasioydhsiodyh'
+
 print('Hola muy buenas xD')
