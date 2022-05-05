@@ -46,18 +46,19 @@ jobs:
       #     last_ssh: |
       #       echo $LASTSSH
 
-      - name: 📤 Upload files to the server and connect to the remote server
-        uses: nuonuonuonuoyan/auto-deploy@v1
+      - name: SSH Server Deploy
+        uses: kostya-ten/ssh-server-deploy@v4
         with:
-          user:     ${{ secrets.DC_HOST }}
-          host:     ${{ secrets.DC_USER }}
+          host:     ${{ secrets.DC_HOST }}
+          username: ${{ secrets.DC_USER }}
           password: ${{ secrets.DC_PASS }}
           port:     ${{ secrets.DC_PORT }}
-          source: '/hola.txt'
-          target: '/home/'
-          command: |
-            cd /home/
-            echo "Welcome" > hola2.txt
+          scp_source: hola.txt
+          scp_target: ~/
+          before_script: |
+            touch hola2.txt
+          after_script: |
+            whoami
 
       # - uses: actions/setup-python@v3
       #   with: 
