@@ -6,8 +6,18 @@ on:
 
   pull_request:
     branches: [ main ]
-
+    types: [opened, synchronize]
+    
 jobs: 
+
+  avoid_reduncy:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Cancel Previous Redundant Builds
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+
   Linter: 
     runs-on: ubuntu-18.04
 
@@ -17,60 +27,41 @@ jobs:
         with:
           fetch-depth: 0
 
-      # - name: Lint
-      #   uses: programmingwithalex/pylinter@v1.4.3
-      #   with:
-      #     flake8-flags: '--count --show-source --statistics --ignore=E501'
+      - name: Lint
+        uses: programmingwithalex/pylinter@v1.4.3
+        with:
+          flake8-flags: '--count --show-source --statistics --ignore=E501'
+
+  Test: 
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: checkout source repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       
+      - name: Test source repo
+        uses: actions/setup-python@v3
+        with: 
+          python-version: '3.8'
+        
+        run: python app.py
 
 
-      # - name: ssh scp ssh pipelines
-      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      #   env:
-      #     WELCOME: "ssh scp ssh pipelines"
-      #     LASTSSH: "Doing something after copying"
-      #     INPUT_PORT: ${{ secrets.DC_PORT }}
-      #   with:
-      #     host: ${{ secrets.DC_HOST }}
-      #     user: ${{ secrets.DC_USER }}
-      #     pass: ${{ secrets.DC_PASS }}
-      #     port: ${{ secrets.DC_PORT }}
-      #     connect_timeout: 10s
-      #     first_ssh: |
-      #       rm -rf /home/github/test
-      #       ls -la  \necho $WELCOME 
-      #       touch /home/test1.txt 
-            
-      #     scp: |
-      #       'hola.txt' => /home/
-      #     last_ssh: |
-      #       echo $LASTSSH
+  Deploy:
 
-      # - uses: AbleLincoln/push-to-sftp@v1.0
-      #   with:
-      #       host:     ${{ secrets.DC_HOST }}
-      #       username: ${{ secrets.DC_USER }}
-      #       password: ${{ secrets.DC_PASS }}
-      #       port:     ${{ secrets.DC_PORT }}
-      #       local-dir: ./
-      #       server-dir: ./home/
-      # - name: Install ssh
-      #   run: sudo systemctl status ssh && sudo apt-get install sshpass 
+    needs: [Linter]
+    runs-on: ubuntu-18.04
 
-      # - name: ssh
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host:     ${{ secrets.DC_HOST }}
-      #     username: ${{ secrets.DC_USER }}
-      #     password: ${{ secrets.DC_PASS }}
-      #     port:     ${{ secrets.DC_PORT }}
-      #     script: whoami
-
-      - name: ssh-scp-ssh-pipelines
+    steps: 
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Deploy
+        if: ${{ github.event_name == 'push' }}
         uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
-        env:
-          WELCOME: "ssh scp ssh pipelines"
-          LASTSSH: "Doing something after copying"
         with:
           host: ${{ secrets.DC_HOST }}
           user: ${{ secrets.DC_USER }}
@@ -78,22 +69,8 @@ jobs:
           port: ${{ secrets.DC_PORT }}
           connect_timeout: 10s
           first_ssh: |
-            ls -a
+            echo 'Start'
           scp: |
-            'hola.txt' => /home/administrator
+            'hola.txt' => /home/${{ secrets.DC_USER }}
           last_ssh: |
-            echo $LASTSSH 
-
-        # run: sshpass -p ${{ secrets.DC_PASS }} shh ${{ secrets.DC_USER }}@${{ secrets.DC_HOST }} -p ${{ secrets.DC_PORT }} "ls"
-        # run: shh ${{ secrets.DC_USER }}@${{ secrets.DC_HOST }} -p ${{ secrets.DC_PORT }} "ls"
-      
-      - run: ls -a
-
-      # - uses: actions/setup-python@v3
-      #   with: 
-          # python-version: '3.8'
-      # - run: python app.py
-
-
-
-      
+            echo 'End'
