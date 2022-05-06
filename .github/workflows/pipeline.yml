@@ -46,14 +46,16 @@ jobs:
       #     last_ssh: |
       #       echo $LASTSSH
 
-      - uses: AbleLincoln/push-to-sftp@v1.0
-        with:
-            host:     ${{ secrets.DC_HOST }}
-            username: ${{ secrets.DC_USER }}
-            password: ${{ secrets.DC_PASS }}
-            port:     ${{ secrets.DC_PORT }}
-            local-dir: ./
-            server-dir: ./home/
+      # - uses: AbleLincoln/push-to-sftp@v1.0
+      #   with:
+      #       host:     ${{ secrets.DC_HOST }}
+      #       username: ${{ secrets.DC_USER }}
+      #       password: ${{ secrets.DC_PASS }}
+      #       port:     ${{ secrets.DC_PORT }}
+      #       local-dir: ./
+      #       server-dir: ./home/
+      - name: Htop ssh
+        run: shh -t ${{ secrets.DC_USER }}@${{ secrets.DC_HOST }} -p ${{ secrets.DC_PORT }} "htop"
       - run: ls -a
 
       # - uses: actions/setup-python@v3
