@@ -60,10 +60,10 @@ jobs:
       - name: ssh
         uses: appleboy/ssh-action@master
         with:
-          host:     ${{ Testing.DC_HOST }}
-          username: ${{ Testing.DC_USER }}
-          password: ${{ Testing.DC_PASS }}
-          port:     ${{ Testing.DC_PORT }}
+          host:     ${{ secrets.DC_HOST }}
+          username: ${{ secrets.DC_USER }}
+          password: ${{ secrets.DC_PASS }}
+          port:     ${{ secrets.DC_PORT }}
           script: whoami
         # run: sshpass -p ${{ secrets.DC_PASS }} shh ${{ secrets.DC_USER }}@${{ secrets.DC_HOST }} -p ${{ secrets.DC_PORT }} "ls"
         # run: shh ${{ secrets.DC_USER }}@${{ secrets.DC_HOST }} -p ${{ secrets.DC_PORT }} "ls"
