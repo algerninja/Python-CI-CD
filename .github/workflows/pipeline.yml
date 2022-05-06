@@ -54,12 +54,19 @@ jobs:
       #       port:     ${{ secrets.DC_PORT }}
       #       local-dir: ./
       #       server-dir: ./home/
-      - name: Install ssh
-        run: sudo systemctl status ssh && sudo apt-get install sshpass 
+      # - name: Install ssh
+      #   run: sudo systemctl status ssh && sudo apt-get install sshpass 
 
-      - name: Htop ssh
+      - name: ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: whoami
         # run: sshpass -p ${{ secrets.DC_PASS }} shh ${{ secrets.DC_USER }}@${{ secrets.DC_HOST }} -p ${{ secrets.DC_PORT }} "ls"
-        run: shh ${{ secrets.DC_USER }}@${{ secrets.DC_HOST }} -p ${{ secrets.DC_PORT }} "ls"
+        # run: shh ${{ secrets.DC_USER }}@${{ secrets.DC_HOST }} -p ${{ secrets.DC_PORT }} "ls"
       
       - run: ls -a
 
