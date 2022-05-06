@@ -7,7 +7,7 @@ on:
   pull_request:
     branches: [ main ]
     types: [opened, synchronize]
-    
+
 jobs: 
 
   avoid_reduncy:
@@ -52,7 +52,7 @@ jobs:
 
   Deploy:
 
-    needs: [Linter]
+    needs: [Linter, Test]
     runs-on: ubuntu-18.04
 
     steps: 
