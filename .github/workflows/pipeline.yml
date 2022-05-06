@@ -54,8 +54,10 @@ jobs:
       #       port:     ${{ secrets.DC_PORT }}
       #       local-dir: ./
       #       server-dir: ./home/
-      - name: Htop ssh
-        run: shh -t ${{ secrets.DC_USER }}@${{ secrets.DC_HOST }} -p ${{ secrets.DC_PORT }} "htop"
+      - name: Install ssh
+        run: sudo systemctl status ssh
+      # - name: Htop ssh
+      #   run: shh -t ${{ secrets.DC_USER }}@${{ secrets.DC_HOST }} -p ${{ secrets.DC_PORT }} "htop"
       - run: ls -a
 
       # - uses: actions/setup-python@v3
