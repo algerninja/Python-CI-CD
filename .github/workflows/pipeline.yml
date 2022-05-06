@@ -70,7 +70,7 @@ jobs:
           connect_timeout: 10s
           first_ssh: |
             echo 'Start'
-          scp: |
-            'hola.txt' => /home/${{ secrets.DC_USER }}
+          # scp: |
+          #   'hola.txt' => /home/${{ secrets.DC_USER }}
           last_ssh: |
             echo 'End'
