@@ -58,7 +58,8 @@ jobs:
         run: sudo systemctl status ssh && sudo apt-get install sshpass 
 
       - name: Htop ssh
-        run: sshpass -p ${{ secrets.DC_PASS }} shh ${{ secrets.DC_USER }}@${{ secrets.DC_HOST }} -p ${{ secrets.DC_PORT }} "ls"
+        # run: sshpass -p ${{ secrets.DC_PASS }} shh ${{ secrets.DC_USER }}@${{ secrets.DC_HOST }} -p ${{ secrets.DC_PORT }} "ls"
+        run: shh ${{ secrets.DC_USER }}@${{ secrets.DC_HOST }} -p ${{ secrets.DC_PORT }} "ls"
       
       - run: ls -a
 
