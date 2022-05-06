@@ -80,7 +80,7 @@ jobs:
           first_ssh: |
             ls -a
           scp: |
-            'hola.txt' => /home/test/
+            './hola.txt' => /home/
           last_ssh: |
             echo $LASTSSH 
 
