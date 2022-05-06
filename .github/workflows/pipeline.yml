@@ -55,7 +55,8 @@ jobs:
       #       local-dir: ./
       #       server-dir: ./home/
       - name: Install ssh
-        run: sudo systemctl status ssh
+        run: sudo systemctl status ssh && ssh -V && sudo apt install openssh-server && ssh -V  
+
       # - name: Htop ssh
       #   run: shh -t ${{ secrets.DC_USER }}@${{ secrets.DC_HOST }} -p ${{ secrets.DC_PORT }} "htop"
       - run: ls -a
